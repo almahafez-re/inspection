@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<title>حجز موعد معاينة عقار — شركة المحافظ العقارية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<script>
+  var API = 'https://script.google.com/macros/s/AKfycbzN0lzTOALNa0gNmOlmwIWENI-XvuJLOqlg9sqjIxt5CZEtvxpV5m4hTZLee1CvbaMPKA/exec';
+  function applyTheme() {
+    var f = (BOOT.settings.fontFamily || 'IBM Plex Sans Arabic').trim();
+    var l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(f).replace(/%20/g, '+') + ':wght@400;700&display=swap';
+    document.head.appendChild(l);
+    var st = document.createElement('style');
+    st.textContent = ':root{--brand:' + BOOT.settings.primaryColor + ';--accent:' + BOOT.settings.accentColor + ';--font:"' + f + '"}';
+    document.head.appendChild(st);
+  }
+</script>
+<style>:root{--brand:#474440;--accent:#B78F54;--font:"IBM Plex Sans Arabic"}</style>
+<style>
+  *{box-sizing:border-box}
+  :root{--ink:#17212B;--muted:#667085;--line:#E4E7EC;--bg:#F5F6F8;--card:#fff;--err:#C0362C;--ok:#13795B;--r:14px}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--font),"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .top{background:#fff;border-bottom:3px solid var(--accent)}
+  .top .in{max-width:760px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:12px;min-height:70px}
+  .top img{height:48px;max-width:220px;object-fit:contain}
+  .top .logo svg{height:46px;width:auto;display:block}
+  .top .co{font-weight:700;font-size:17px;color:var(--brand)}
+  .hero{background:var(--brand);color:#fff;padding:30px 20px 92px;position:relative;overflow:hidden}
+  .hero .orn{position:absolute;left:-40px;top:-30px;width:250px;opacity:.16;pointer-events:none}
+  .hero .orn svg{width:100%;height:auto;display:block}
+  .hero .orn2{left:auto;right:auto;left:62%;top:auto;bottom:-120px;width:180px;opacity:.08;transform:rotate(180deg)}
+  .hero .in{max-width:760px;margin:auto;position:relative}
+  .hero .kick{display:inline-block;color:var(--accent);font-weight:700;font-size:14px;margin-bottom:2px}
+  .num{background:var(--accent)!important}
+  .hero h1{margin:6px 0 10px;font-size:clamp(24px,5vw,32px);font-weight:700;line-height:1.3}
+  .hero p{margin:0;opacity:.88;font-size:15.5px;max-width:620px}
+  main{max-width:760px;margin:-62px auto 40px;padding:0 14px;position:relative;z-index:1}
+  .card{background:var(--card);border-radius:var(--r);box-shadow:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06);border:1px solid var(--line)}
+  form{padding:8px 22px 24px}
+  .sec{padding:18px 0;border-bottom:1px solid var(--line)}
+  .sec:last-of-type{border-bottom:0}
+  .sec-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .num{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+  .sec-h h2{margin:0;font-size:17px;font-weight:700}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  label.f{display:block;font-weight:600;font-size:14.5px;margin-bottom:6px}
+  label.f .req{color:var(--err)}
+  label.f .opt{color:var(--muted);font-weight:400;font-size:13px}
+  .ctl{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;min-height:50px;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+  select.ctl{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:38px}
+  .ctl:focus{border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 14%,transparent)}
+  .ctl:disabled{background-color:#F2F4F7;color:#98A2B3}
+  textarea.ctl{min-height:96px;resize:vertical}
+  .srch .ctl{padding-inline-start:42px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2.2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat right 14px center}
+  .srch .hint{font-size:13px;color:var(--muted);margin-top:6px}
+  .ltr{direction:ltr;text-align:right}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px}
+  .err{font-size:13.5px;color:var(--err);margin-top:6px;display:none}
+  .bad .ctl{border-color:var(--err)}
+  .bad .err{display:block}
+  .info{background:color-mix(in srgb,var(--accent) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent) 35%,#fff);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:10px;white-space:pre-line}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{position:relative}
+  .chip input{position:absolute;opacity:0;pointer-events:none}
+  .chip span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:120px;min-height:50px;padding:8px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-weight:600;font-size:15px;text-align:center;transition:all .15s;user-select:none}
+  .chip span small{font-weight:400;font-size:12px;color:var(--muted)}
+  .chip input:checked+span{border-color:var(--brand);background:var(--brand);color:#fff}
+  .chip input:checked+span small{color:rgba(255,255,255,.8)}
+  .chip input:focus-visible+span{box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 20%,transparent)}
+  .odate{margin-top:12px;display:none}.odate.on{display:block}
+  .odate .hint{font-size:13px;color:var(--muted);margin-top:6px}
+  .chip.oth span{border-style:dashed}
+  @media(max-width:620px){.chip{flex:1 1 calc(50% - 10px)}.chip span{min-width:0}}
+  .empty{color:var(--muted);font-size:14.5px;background:#F9FAFB;border:1px dashed var(--line);border-radius:10px;padding:14px;text-align:center}
+  .btn{width:100%;font:inherit;font-weight:700;font-size:17px;border:0;border-radius:12px;padding:15px 20px;min-height:56px;background:var(--brand);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:filter .15s,transform .05s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+  .spin{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .8s linear infinite;display:none}
+  .busy .spin{display:inline-block}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .formerr{display:none;background:#FEF3F2;color:var(--err);border:1px solid #FECDCA;border-radius:10px;padding:12px 14px;margin:16px 0 0;font-size:14.5px}
+  .done{padding:36px 24px;text-align:center}
+  .done .ic{width:72px;height:72px;border-radius:50%;background:#E7F6EF;color:var(--ok);display:grid;place-items:center;margin:0 auto 16px}
+  .done h2{margin:0 0 6px;font-size:22px}
+  .done .rid{display:inline-block;background:#F2F4F7;border-radius:8px;padding:4px 12px;font-weight:700;margin:6px 0 16px;direction:ltr}
+  .notice{background:#FFFAEB;border:1px solid #FEDF89;color:#7A4D0B;border-radius:12px;padding:14px 16px;text-align:right;font-size:15px;margin:0 0 18px}
+  .summary{text-align:right;border:1px solid var(--line);border-radius:12px;margin:0 0 20px;overflow:hidden}
+  .summary div{display:flex;gap:12px;padding:10px 14px;font-size:14.5px;border-bottom:1px solid var(--line)}
+  .summary div:last-child{border-bottom:0}
+  .summary b{min-width:110px;color:var(--muted);font-weight:500}
+  .loading{padding:50px 20px;text-align:center;color:var(--muted)}
+  .loading .spin{display:inline-block;border-color:var(--line);border-top-color:var(--brand);width:30px;height:30px;margin-bottom:10px}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:0 20px 30px}
+  .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);opacity:0;pointer-events:none}
+  html,body{overflow-x:hidden}
+</style>
+</head>
+<body>
+  <header class="top"><div class="in" id="topbar"></div></header>
+  <section class="hero"><div class="orn" id="orn"></div><div class="orn orn2" id="orn2"></div><div class="in"><span class="kick" id="kick"></span><h1 id="ttl"></h1><p id="intro"></p></div></section>
+  <main>
+    <div class="card" id="card">
+      <div class="loading" id="loading"><div class="spin"></div><div>جارٍ تحميل المزادات المتاحة…</div></div>
+    </div>
+  </main>
+  <footer id="foot"></footer>
+
+<template id="tplForm">
+  <form id="f" novalidate autocomplete="on">
+    <div class="sec">
+      <div class="sec-h"><div class="num">1</div><h2>المزاد والعقار</h2></div>
+      <div class="fld srch">
+        <label class="f" for="q">بحث سريع <span style="font-weight:400;color:var(--muted)">(اختياري)</span></label>
+        <input class="ctl" id="q" type="search" autocomplete="off" placeholder="ابحث باسم المزاد أو العقار أو الحي أو رقم الصك أو رقم العقار">
+        <div class="hint" id="qhint" hidden></div>
+      </div>
+      <div class="grid">
+        <div class="fld" id="w-auction">
+          <label class="f" for="auction">اختيار المزاد <span class="req">*</span></label>
+          <select class="ctl" id="auction" required></select>
+          <div class="err">يرجى اختيار المزاد</div>
+        </div>
+        <div class="fld" id="w-property">
+          <label class="f" for="property">اختيار العقار <span class="req">*</span></label>
+          <select class="ctl" id="property" required disabled><option value="">اختر المزاد أولاً</option></select>
+          <div class="err">يرجى اختيار العقار</div>
+        </div>
+      </div>
+      <div class="info" id="auctionInfo" hidden></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><div class="num">2</div><h2>بيانات العميل</h2></div>
+      <div class="grid">
+        <div class="fld" id="w-name">
+          <label class="f" for="name">الاسم الكامل <span class="req">*</span></label>
+          <input class="ctl" id="name" name="name" autocomplete="name" maxlength="120" placeholder="مثال: محمد عبدالله السالم">
+          <div class="err">يرجى إدخال الاسم الكامل</div>
+        </div>
+        <div class="fld" id="w-phone">
+          <label class="f" for="phone">رقم الجوال <span class="req">*</span></label>
+          <input class="ctl ltr" id="phone" name="tel" type="tel" inputmode="numeric" autocomplete="tel" maxlength="16" placeholder="05XXXXXXXX">
+          <div class="err">يرجى إدخال رقم جوال سعودي صحيح يبدأ بـ 05 ومكوّن من 10 أرقام</div>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><div class="num">3</div><h2>موعد المعاينة</h2></div>
+      <div class="fld" id="w-date">
+        <label class="f">تاريخ المعاينة <span class="req">*</span></label>
+        <div class="chips" id="dates"><div class="empty">اختر المزاد لعرض التواريخ المتاحة</div></div>
+        <div class="odate" id="odateBox"><input class="ctl" type="date" id="odate"><div class="hint" id="odateHint"></div></div>
+        <div class="err" id="dateErr">يرجى اختيار تاريخ المعاينة</div>
+      </div>
+      <div class="fld" id="w-time" style="margin-top:16px">
+        <label class="f">وقت المعاينة <span class="req">*</span></label>
+        <div class="chips" id="times"><div class="empty">اختر التاريخ لعرض الأوقات المتاحة</div></div>
+        <div class="err">يرجى اختيار وقت المعاينة</div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><div class="num">4</div><h2>ملاحظات إضافية</h2></div>
+      <div class="fld">
+        <label class="f" for="notes">ملاحظات <span class="opt">(اختياري)</span></label>
+        <textarea class="ctl" id="notes" maxlength="1000" placeholder="أي معلومات تودّ إضافتها لطلبك"></textarea>
+      </div>
+      <div class="hp" aria-hidden="true"><input id="website" tabindex="-1" autocomplete="off"></div>
+    </div>
+    <div class="formerr" id="formerr"></div>
+    <div style="margin-top:18px"><button class="btn" id="send" type="submit"><span class="spin"></span><span>إرسال طلب المعاينة</span></button></div>
+  </form>
+</template>
+
+<script>
+function main() {
+(function () {
+  var S = BOOT.settings, DATA = [], $ = function (id) { return document.getElementById(id); };
+  var DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  var FIRST = BOOT.auctions;
+  function call(fn, p) {
+    if (fn === 'api_publicData' && FIRST) { var d = FIRST; FIRST = null; return Promise.resolve(d); }
+    var req = fn === 'api_submit'
+      ? fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: 'submit', p: p }) })
+      : fetch(API + '?api=data');
+    return req.then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) throw new Error(j.error); return j.data; });
+  }
+  function msg(e) { var m = ((e && e.message) || '').replace(/^Error:\s*/, ''); return /[\u0600-\u06FF]/.test(m) ? m : 'تعذّر الاتصال بالخادم. تحقق من الإنترنت وحاول مرة أخرى.'; }
+  function dateParts(d) { var p = d.split('-').map(Number); return { y: p[0], m: p[1], d: p[2], dt: new Date(Date.UTC(p[0], p[1] - 1, p[2], 12)) }; }
+  function fmtDate(d) { var p = dateParts(d); return DAYS[p.dt.getUTCDay()] + ' ' + p.d + ' ' + MONTHS[p.m - 1] + ' ' + p.y; }
+  function hijri(d) {
+    try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(dateParts(d).dt); }
+    catch (e) { return ''; }
+  }
+  function clock(t) { var p = t.split(':').map(Number), h = p[0], ap = h < 12 ? 'ص' : 'م'; h = h % 12 || 12; return h + ':' + ('0' + p[1]).slice(-2) + ' ' + ap; }
+  function fmtTime(t) { var p = String(t).split('-'); return p.length === 2 ? 'من ' + clock(p[0]) + ' إلى ' + clock(p[1]) : clock(p[0]); }
+  function latin(s) { return String(s).replace(/[\u0660-\u0669]/g, function (d) { return d.charCodeAt(0) - 0x0660; }).replace(/[\u06F0-\u06F9]/g, function (d) { return d.charCodeAt(0) - 0x06F0; }); }
+  function phoneOk(v) {
+    v = latin(v).replace(/[\s\-().]/g, '').replace(/^\+/, '00');
+    if (/^009665\d{8}$/.test(v)) v = '0' + v.substr(5); else if (/^9665\d{8}$/.test(v)) v = '0' + v.substr(3); else if (/^5\d{8}$/.test(v)) v = '0' + v;
+    return /^05\d{8}$/.test(v) ? v : '';
+  }
+  function propLabel(p) { return [p.name, p.deed ? 'صك رقم ' + p.deed : ''].filter(Boolean).join(' — '); }
+
+  // الهوية
+  var B = BOOT.brand || {};
+  $('topbar').innerHTML = BOOT.logo ? '<img src="' + esc(BOOT.logo) + '" alt="' + esc(S.companyName) + '">'
+    : (B.logo ? '<span class="logo" role="img" aria-label="' + esc(S.companyName) + '">' + B.logo + '</span>' : '<div class="co">' + esc(S.companyName) + '</div>');
+  if (B.symbol) { $('orn').innerHTML = B.symbol; $('orn2').innerHTML = B.symbol; }
+  $('kick').textContent = S.companyName;
+  $('ttl').textContent = S.pageTitle;
+  $('intro').textContent = S.intro;
+  $('foot').textContent = '© ' + new Date().getFullYear() + ' ' + S.companyName;
+
+  function load() {
+    $('card').innerHTML = '<div class="loading"><div class="spin"></div><div>جارٍ تحميل المزادات المتاحة…</div></div>';
+    call('api_publicData').then(function (d) { DATA = d || []; render(); })
+      .catch(function (e) {
+        $('card').innerHTML = '<div class="done"><h2>تعذّر تحميل البيانات</h2><p style="color:var(--muted)">' + esc(msg(e)) + '</p><button class="btn" style="max-width:240px;margin:auto" id="retry">إعادة المحاولة</button></div>';
+        $('retry').onclick = load;
+      });
+  }
+
+  function render() {
+    if (!DATA.length) {
+      $('card').innerHTML = '<div class="done"><h2>لا توجد مزادات متاحة حالياً</h2><p style="color:var(--muted)">يرجى المحاولة لاحقاً.</p></div>';
+      return;
+    }
+    $('card').innerHTML = '';
+    $('card').appendChild(document.importNode($('tplForm').content, true));
+    var sel = $('auction');
+    sel.innerHTML = '<option value="">اختر المزاد</option>' + DATA.map(function (a) { return '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>'; }).join('');
+    if (DATA.length === 1) { sel.value = DATA[0].id; }
+    sel.onchange = function () { onAuction(); };
+    $('property').onchange = function () { clearBad('property'); };
+    var qT; $('q').oninput = function () { clearTimeout(qT); qT = setTimeout(applySearch, 150); };
+    $('name').oninput = function () { clearBad('name'); };
+    $('phone').oninput = function () { clearBad('phone'); };
+    $('f').onsubmit = submit;
+    onAuction();
+  }
+
+  /* بحث داخل قائمتي المزاد والعقار */
+  function nz(v) {
+    return String(v || '').toLowerCase().replace(/[\u0660-\u0669]/g, function (d) { return d.charCodeAt(0) - 0x0660; })
+      .replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim();
+  }
+  function qTerms() { var q = $('q') ? nz($('q').value) : ''; return q ? q.split(' ') : []; }
+  function hit(text, terms) { var t = nz(text); return terms.every(function (w) { return t.indexOf(w) > -1; }); }
+  /** رقم العقار: إذا كتب العميل رقماً قصيراً (حتى 3 خانات) أو «عقار 7» نطابق رقم العقار نفسه بالضبط، لا أي رقم يحتويه */
+  function propNo(terms) { var q = terms.join(' ').replace(/^عقار\s*/, ''); return /^\d{1,2}$/.test(q) ? q : ''; }
+  function pNum(p) { var m = nz(p.name).match(/^عقار\s*(\d+)/); return m ? m[1] : ''; }
+  function propHit(a, p, terms) {
+    if (!terms.length) return true;
+    var no = propNo(terms);
+    if (no) {
+      var n = String(Number(no));
+      var exact = DATA.some(function (x) { return x.properties.some(function (y) { return pNum(y) === n; }); });
+      if (exact) return pNum(p) === n; // يوجد عقار بهذا الرقم: نعرضه وحده مباشرة
+    }
+    return hit(a.name + ' ' + propLabel(p) + ' ' + (p.details || ''), terms);
+  }
+  function shownProps(a) { var terms = qTerms(); return a.properties.filter(function (p) { return propHit(a, p, terms); }); }
+  function applySearch() {
+    var terms = qTerms(), sel = $('auction'), keep = sel.value;
+    var list = DATA.filter(function (a) { return !terms.length || a.properties.some(function (p) { return propHit(a, p, terms); }) || hit(a.name, terms); });
+    sel.innerHTML = '<option value="">' + (list.length ? 'اختر المزاد' : 'لا توجد نتائج مطابقة') + '</option>' + list.map(function (a) { return '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>'; }).join('');
+    if (list.some(function (a) { return a.id === keep; })) sel.value = keep;
+    else if (list.length === 1) sel.value = list[0].id;
+    var n = list.reduce(function (s, a) { return s + shownProps(a).length; }, 0), h = $('qhint');
+    h.hidden = !terms.length;
+    h.textContent = !terms.length ? '' : n ? 'عدد العقارات المطابقة: ' + n + (list.length > 1 ? ' في ' + list.length + ' مزادات' : '') : 'لا توجد عقارات مطابقة. جرّب كلمة أخرى أو رقم الصك.';
+    onAuction(true);
+  }
+
+  function cur() { var id = $('auction').value; return DATA.filter(function (a) { return a.id === id; })[0]; }
+
+  function onAuction(fromSearch) {
+    clearBad('auction');
+    var keepP = $('property').value;
+    var a = cur(), ps = $('property'), info = $('auctionInfo');
+    if (!a) {
+      ps.disabled = true; ps.innerHTML = '<option value="">اختر المزاد أولاً</option>';
+      info.hidden = true;
+      $('dates').innerHTML = '<div class="empty">اختر المزاد لعرض التواريخ المتاحة</div>';
+      $('times').innerHTML = '<div class="empty">اختر التاريخ لعرض الأوقات المتاحة</div>';
+      return;
+    }
+    info.hidden = true; info.textContent = '';
+    var shown = shownProps(a);
+    if (a.properties.length && !shown.length) {
+      ps.disabled = true; ps.innerHTML = '<option value="">لا توجد عقارات مطابقة للبحث في هذا المزاد</option>';
+    } else if (a.properties.length) {
+      ps.disabled = false;
+      ps.innerHTML = '<option value="">' + (shown.length < a.properties.length ? 'اختر العقار (' + shown.length + ' مطابق)' : 'اختر العقار') + '</option>' + shown.map(function (p) { return '<option value="' + esc(p.id) + '">' + esc(propLabel(p)) + '</option>'; }).join('');
+      if (shown.some(function (p) { return p.id === keepP; })) ps.value = keepP;
+      else if (shown.length === 1) ps.value = shown[0].id;
+      if (fromSearch === true && ps.value) clearBad('property');
+    } else { ps.disabled = true; ps.innerHTML = '<option value="">لا توجد عقارات متاحة في هذا المزاد</option>'; }
+    $('odateBox').classList.remove('on');
+    if (!a.slots.length && !a.other) {
+      $('dates').innerHTML = '<div class="empty">لا توجد مواعيد معاينة متاحة لهذا المزاد حالياً</div>';
+    } else {
+      $('dates').innerHTML = a.slots.map(function (s, i) {
+        return '<label class="chip"><input type="radio" name="date" value="' + esc(s.date) + '"><span>' + esc(fmtDate(s.date)) + '<small>' + esc(hijri(s.date)) + '</small></span></label>';
+      }).join('') + (a.other ? '<label class="chip oth"><input type="radio" name="date" value="__other"><span>موعد آخر<small>اختر التاريخ المناسب لك</small></span></label>' : '');
+      [].forEach.call(document.querySelectorAll('input[name=date]'), function (r) { r.onchange = onDate; });
+      if (a.slots.length === 1 && !a.other) { document.querySelector('input[name=date]').checked = true; }
+      if (a.other) {
+        var od = $('odate'); od.min = a.other.min; od.max = a.other.max; od.value = '';
+        var DN = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+        $('odateHint').textContent = 'متاح من الغد حتى ' + fmtDate(a.other.max) + (a.other.skip.length ? ' — ما عدا يوم ' + a.other.skip.map(function (i) { return DN[i]; }).join(' و') : '');
+        od.onchange = function () { clearBad('date'); onDate(); };
+      }
+    }
+    onDate();
+  }
+
+  function onDate() {
+    clearBad('date');
+    var a = cur(), r = document.querySelector('input[name=date]:checked');
+    var isOther = !!(a && a.other && r && r.value === '__other');
+    $('odateBox').classList.toggle('on', isOther);
+    var slot = isOther ? { times: a.other.times } : a && r ? a.slots.filter(function (s) { return s.date === r.value; })[0] : null;
+    if (!slot) { $('times').innerHTML = '<div class="empty">اختر التاريخ لعرض الأوقات المتاحة</div>'; return; }
+    $('times').innerHTML = slot.times.map(function (t) {
+      return '<label class="chip"><input type="radio" name="time" value="' + esc(t) + '"><span>' + esc(fmtTime(t)) + '</span></label>';
+    }).join('');
+    [].forEach.call(document.querySelectorAll('input[name=time]'), function (x) { x.onchange = function () { clearBad('time'); }; });
+    if (slot.times.length === 1) document.querySelector('input[name=time]').checked = true;
+  }
+
+  function otherErr(a, v) {
+    if (!v) return 'اختر التاريخ المطلوب من التقويم';
+    var o = a.other; if (v < o.min) return 'اختر تاريخاً يبدأ من الغد';
+    if (v > o.max) return 'اختر تاريخاً قبل ' + fmtDate(o.max);
+    if (o.skip.indexOf(dateParts(v).dt.getUTCDay()) > -1) return 'هذا اليوم غير متاح للمعاينة، اختر يوماً آخر';
+    return '';
+  }
+  function bad(k) { $('w-' + k).classList.add('bad'); }
+  function clearBad(k) { var w = $('w-' + k); if (w) w.classList.remove('bad'); $('formerr') && ($('formerr').style.display = 'none'); }
+
+  function submit(ev) {
+    ev.preventDefault();
+    var a = cur(), d = document.querySelector('input[name=date]:checked'), t = document.querySelector('input[name=time]:checked');
+    var phone = phoneOk($('phone').value), first = null;
+    function chk(ok, k) { if (!ok) { bad(k); first = first || k; } }
+    chk(!!a, 'auction'); chk(!!$('property').value, 'property');
+    chk($('name').value.trim().length >= 3, 'name'); chk(!!phone, 'phone');
+    var dateVal = d ? d.value : '';
+    if (d && d.value === '__other') {
+      dateVal = $('odate').value;
+      var oe = otherErr(a, dateVal);
+      $('dateErr').textContent = oe || 'يرجى اختيار تاريخ المعاينة';
+      if (oe) dateVal = '';
+    } else $('dateErr').textContent = 'يرجى اختيار تاريخ المعاينة';
+    chk(!!dateVal, 'date'); chk(!!t, 'time');
+    if (first) { $('w-' + first).scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    var btn = $('send'); btn.disabled = true; btn.classList.add('busy');
+    var payload = { auctionId: a.id, propertyId: $('property').value, name: $('name').value.trim(), phone: phone,
+      date: dateVal, time: t.value, notes: $('notes').value.trim(), website: $('website').value };
+    var prop = a.properties.filter(function (p) { return p.id === payload.propertyId; })[0];
+    call('api_submit', payload).then(function (res) { done(res, payload, a, prop); })
+      .catch(function (e) {
+        btn.disabled = false; btn.classList.remove('busy');
+        var fe = $('formerr'); fe.textContent = msg(e); fe.style.display = 'block'; fe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+  }
+
+  function done(res, p, a, prop) {
+    var rows = [['رقم الطلب', '#' + res.id], ['المزاد', a.name], ['العقار', propLabel(prop)], ['التاريخ', fmtDate(p.date)], ['الوقت', fmtTime(p.time)], ['الاسم', p.name], ['الجوال', p.phone]];
+    $('card').innerHTML = '<div class="done">' +
+      '<div class="ic"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>' +
+      '<h2>تم استلام طلبك</h2>' +
+      '<div class="notice">' + esc(S.successMsg) + '</div>' +
+      '<div class="summary">' + rows.map(function (r) { return '<div><b>' + r[0] + '</b><span>' + esc(r[1]) + '</span></div>'; }).join('') + '</div>' +
+      '<button class="btn ghost" id="again">تسجيل طلب معاينة آخر</button></div>';
+    $('again').onclick = function () { render(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  load();
+})();
+}
+(function boot(n) {
+  fetch(API + '?api=boot').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) throw new Error(j.error);
+    window.BOOT = j.data; applyTheme(); main();
+  }).catch(function () {
+    if (n < 2) return setTimeout(function () { boot(n + 1); }, 1500);
+    var c = document.getElementById('card');
+    if (c) c.innerHTML = '<div class="done"><h2>تعذّر تحميل الصفحة</h2><p style="color:var(--muted)">تحقق من الإنترنت ثم حدّث الصفحة.</p></div>';
+  });
+})(0);
+</script>
+</body>
+</html>
