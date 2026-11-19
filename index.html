@@ -74,6 +74,25 @@
   .odate{margin-top:12px;display:none}.odate.on{display:block}
   .odate .hint{font-size:13px;color:var(--muted);margin-top:6px}
   .chip.oth span{border-style:dashed}
+  .cal{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:12px;max-width:420px}
+  .cal .ctop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .cal .mode{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .cal .mode button{border:0;background:#fff;padding:5px 14px;font:inherit;font-size:13px;cursor:pointer;color:var(--muted)}
+  .cal .mode button.on{background:var(--brand);color:#fff}
+  .cal .nav{display:flex;align-items:center;gap:6px}
+  .cal .nav button{border:1px solid var(--line);background:#fff;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:var(--ink)}
+  .cal .nav button:disabled{opacity:.35;cursor:default}
+  .cal .mt{text-align:center;font-weight:700;margin-bottom:2px}
+  .cal .ms{text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px}
+  .cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cal .wd{text-align:center;font-size:11px;color:var(--muted);padding:2px 0}
+  .cal .d{border:1px solid transparent;background:none;border-radius:8px;padding:4px 0;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;cursor:pointer;color:var(--ink)}
+  .cal .d b{font-size:15px;line-height:1.2}.cal .d small{font-size:10px;color:var(--muted);line-height:1.2}
+  .cal .d.ok{border-color:var(--line);background:#fff}
+  .cal .d.ok:hover{border-color:var(--brand)}
+  .cal .d:disabled{opacity:.28;cursor:default}
+  .cal .d.sel{background:var(--brand);border-color:var(--brand);color:#fff}.cal .d.sel small{color:rgba(255,255,255,.85)}
+  .osel{margin-top:8px;font-weight:600;font-size:14px}
   @media(max-width:620px){.chip{flex:1 1 calc(50% - 10px)}.chip span{min-width:0}}
   .empty{color:var(--muted);font-size:14.5px;background:#F9FAFB;border:1px dashed var(--line);border-radius:10px;padding:14px;text-align:center}
   .btn{width:100%;font:inherit;font-weight:700;font-size:17px;border:0;border-radius:12px;padding:15px 20px;min-height:56px;background:var(--brand);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:filter .15s,transform .05s}
@@ -154,7 +173,7 @@
       <div class="fld" id="w-date">
         <label class="f">تاريخ المعاينة <span class="req">*</span></label>
         <div class="chips" id="dates"><div class="empty">اختر المزاد لعرض التواريخ المتاحة</div></div>
-        <div class="odate" id="odateBox"><input class="ctl" type="date" id="odate"><div class="hint" id="odateHint"></div></div>
+        <div class="odate" id="odateBox"><input type="hidden" id="odate"><div class="cal" id="ocal"></div><div class="hint" id="odateHint"></div><div class="osel" id="osel"></div></div>
         <div class="err" id="dateErr">يرجى اختيار تاريخ المعاينة</div>
       </div>
       <div class="fld" id="w-time" style="margin-top:16px">
@@ -314,10 +333,9 @@ function main() {
       [].forEach.call(document.querySelectorAll('input[name=date]'), function (r) { r.onchange = onDate; });
       if (a.slots.length === 1 && !a.other) { document.querySelector('input[name=date]').checked = true; }
       if (a.other) {
-        var od = $('odate'); od.min = a.other.min; od.max = a.other.max; od.value = '';
+        var od = $('odate'); od.value = ''; CAL = { a: a, mode: CAL.mode || 'g', page: 0 }; drawCal(); $('osel').textContent = '';
         var DN = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-        $('odateHint').textContent = 'متاح من الغد حتى ' + fmtDate(a.other.max) + (a.other.skip.length ? ' — ما عدا يوم ' + a.other.skip.map(function (i) { return DN[i]; }).join(' و') : '');
-        od.onchange = function () { clearBad('date'); onDate(); };
+        $('odateHint').textContent = 'متاح من الغد حتى ' + fmtDate(a.other.max) + (hijri(a.other.max) ? ' (' + hijri(a.other.max) + ')' : '') + (a.other.skip.length ? ' — ما عدا يوم ' + a.other.skip.map(function (i) { return DN[i]; }).join(' و') : '');
       }
     }
     onDate();
@@ -337,8 +355,57 @@ function main() {
     if (slot.times.length === 1) document.querySelector('input[name=time]').checked = true;
   }
 
+  // تقويم «موعد آخر»: ميلادي/هجري، والأيام خارج المدة أو الأيام المستثناة غير قابلة للاختيار
+  var CAL = { mode: 'g' };
+  var HF = (function () { try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return null; } })();
+  var HM = (function () { try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', { month: 'long', timeZone: 'UTC' }); } catch (e) { return null; } })();
+  function iso(dt) { return dt.toISOString().substr(0, 10); }
+  function addD(d, n) { var p = dateParts(d).dt; p.setUTCDate(p.getUTCDate() + n); return iso(p); }
+  function hp(d) { // {y,m,d} هجري
+    if (!HF) return null; var o = {};
+    HF.formatToParts(dateParts(d).dt).forEach(function (x) { if (x.type === 'day' || x.type === 'month' || x.type === 'year') o[x.type] = parseInt(x.value, 10); });
+    return { y: o.year, m: o.month, d: o.day };
+  }
+  function calOf(d, mode) { if (mode === 'h') { var h = hp(d); return h ? h : calOf(d, 'g'); } var p = dateParts(d); return { y: p.y, m: p.m, d: p.d }; }
+  function calOk(d) { var o = CAL.a.other; return d >= o.min && d <= o.max && o.skip.indexOf(dateParts(d).dt.getUTCDay()) < 0; }
+  function calMonths() { // قائمة أشهر المدة حسب نوع التقويم: [{start,end}]
+    var o = CAL.a.other, m = CAL.mode, out = [], d = o.min;
+    while (d <= o.max) {
+      var s = d; while (calOf(addD(s, -1), m).m === calOf(d, m).m && calOf(addD(s, -1), m).d < calOf(s, m).d) s = addD(s, -1);
+      var e = d; while (calOf(addD(e, 1), m).m === calOf(d, m).m && calOf(addD(e, 1), m).d > calOf(e, m).d) e = addD(e, 1);
+      out.push({ start: s, end: e }); d = addD(e, 1);
+    }
+    return out;
+  }
+  function drawCal() {
+    if (!CAL.a || !CAL.a.other) return;
+    if (CAL.mode === 'h' && !HF) CAL.mode = 'g';
+    var ms = calMonths(); if (CAL.page > ms.length - 1) CAL.page = ms.length - 1; if (CAL.page < 0) CAL.page = 0;
+    var M = ms[CAL.page], sel = $('odate').value, h = CAL.mode === 'h';
+    var title = h ? (HM ? HM.format(dateParts(M.start).dt) : '') + ' ' + calOf(M.start, 'h').y + 'هـ' : MONTHS[dateParts(M.start).m - 1] + ' ' + dateParts(M.start).y + 'م';
+    var a1 = h ? MONTHS[dateParts(M.start).m - 1] + ' ' + dateParts(M.start).y : (HM ? HM.format(dateParts(M.start).dt) : ''),
+        a2 = h ? MONTHS[dateParts(M.end).m - 1] + ' ' + dateParts(M.end).y : (HM ? HM.format(dateParts(M.end).dt) + ' ' + calOf(M.end, 'h').y + 'هـ' : '');
+    var sub = a1 === a2 || !a1 ? a2 : a1 + ' – ' + a2;
+    var html = '<div class="ctop"><div class="mode"><button type="button" data-m="g" class="' + (h ? '' : 'on') + '">ميلادي</button>' + (HF ? '<button type="button" data-m="h" class="' + (h ? 'on' : '') + '">هجري</button>' : '') + '</div>' +
+      '<div class="nav"><button type="button" data-p="-1" aria-label="الشهر السابق"' + (CAL.page ? '' : ' disabled') + '>›</button><button type="button" data-p="1" aria-label="الشهر التالي"' + (CAL.page < ms.length - 1 ? '' : ' disabled') + '>‹</button></div></div>' +
+      '<div class="mt">' + esc(title) + '</div><div class="ms">' + esc(sub) + '</div><div class="grid">' +
+      ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'].map(function (w) { return '<div class="wd">' + w + '</div>'; }).join('');
+    for (var i = 0, w = dateParts(M.start).dt.getUTCDay(); i < w; i++) html += '<div></div>';
+    for (var d = M.start; d <= M.end; d = addD(d, 1)) {
+      var ok = calOk(d), pr = calOf(d, CAL.mode).d, sc = calOf(d, h ? 'g' : 'h').d;
+      html += '<button type="button" class="d' + (ok ? ' ok' : '') + (d === sel ? ' sel' : '') + '" data-d="' + d + '"' + (ok ? '' : ' disabled') + ' aria-label="' + esc(fmtDate(d) + ' — ' + hijri(d)) + '"><b>' + pr + '</b><small>' + (HF ? sc : '') + '</small></button>';
+    }
+    $('ocal').innerHTML = html + '</div>';
+    [].forEach.call($('ocal').querySelectorAll('[data-m]'), function (b) { b.onclick = function () { var keep = $('odate').value || M.start; CAL.mode = b.getAttribute('data-m'); CAL.page = 0; var ms2 = calMonths(); ms2.forEach(function (x, k) { if (keep >= x.start && keep <= x.end) CAL.page = k; }); drawCal(); }; });
+    [].forEach.call($('ocal').querySelectorAll('[data-p]'), function (b) { b.onclick = function () { CAL.page += Number(b.getAttribute('data-p')); drawCal(); }; });
+    [].forEach.call($('ocal').querySelectorAll('.d.ok'), function (b) { b.onclick = function () {
+      var v = b.getAttribute('data-d'); $('odate').value = v; clearBad('date');
+      $('osel').textContent = 'التاريخ المختار: ' + fmtDate(v) + (hijri(v) ? ' — ' + hijri(v) : ''); drawCal();
+    }; });
+  }
+
   function otherErr(a, v) {
-    if (!v) return 'اختر التاريخ المطلوب من التقويم';
+    if (!v) return 'اختر التاريخ المطلوب من التقويم أعلاه';
     var o = a.other; if (v < o.min) return 'اختر تاريخاً يبدأ من الغد';
     if (v > o.max) return 'اختر تاريخاً قبل ' + fmtDate(o.max);
     if (o.skip.indexOf(dateParts(v).dt.getUTCDay()) > -1) return 'هذا اليوم غير متاح للمعاينة، اختر يوماً آخر';
